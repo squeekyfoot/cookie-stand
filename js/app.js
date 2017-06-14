@@ -69,6 +69,7 @@ var table = document.createElement('table');
 table.setAttribute('id', 'sales_table');
 parentElement.appendChild(table);
 
+
 // Create the initial row of headings for hours and totals:
 // ROW 1:
 
@@ -99,8 +100,6 @@ seatac.render();
 seattleCenter.render();
 capitolHill.render();
 alki.render();
-
-// STRETCH GOAL: Create a footer row for the table to display totals for each hour:
 
 
 // Add event listener to create store objects

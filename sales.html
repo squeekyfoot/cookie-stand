@@ -12,13 +12,13 @@
         <legend>Add A Store</legend>
         <p>Enter in store information below...</p>
         <label>Store Name</label>
-        <input name="name" type="text" />
+        <input name="name" type="text" required/>
         <label>Minimum Customers (Per Hour)</label>
-        <input name="minCustomers" type="text" />
+        <input name="minCustomers" type="number" required/>
         <label>Maximum Customers (Per Hour)</label>
-        <input name="maxCustomers" type="text" />
+        <input name="maxCustomers" type="number" required/>
         <label>Average Cookies Sold (Per Customer)</label>
-        <input name="averageCookies" type="text" />
+        <input name="averageCookies" type="number" step=".1" required/>
       </fieldset>
       <button type="submit">Add Store</button>
     </form>
