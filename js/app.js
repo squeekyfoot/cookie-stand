@@ -1,152 +1,103 @@
 'use strict';
 
-// Calculate how many cookies each store must make every day
-// Hours of operation: 6am - 8pm everyday
+// Create a constructor function to create and hold store objects
 
-// Individual stores should be made into objects
-
-// Stores the min/max hourly customers, and the average cookies per customer, in object properties
-//
-// Uses a method of that object to generate a random number of customers per hour. Objects/Math/random
-//
-// Calculate and store the simulated amounts of cookies purchased for each hour at each location using average cookies purchased and the random number of customers generated
-//
-// Store the results for each location in a separate array... perhaps as a property of the object representing that location
-//
-// Display the values of each array as unordered lists in the browser
-//
-// Calculating the sum of these hourly totals; In a list
-
-// Stores: 1st and Pike, SeaTac Airport, Seattle Center, Capitol Hill, Alki
-var storeNames = ['1st and Pike', 'SeaTac Airport', 'Seattle Center', 'Capitol Hill', 'Alki'];
-
-var pike = {
-  name: '1st and Pike',
-  minCustomers: 23,
-  maxCustomers: 65,
-  averageCookies: 6.3,
-  hourlyTotals: [],
-  generateCustomers: function (min, max, avg) {
+function Store (name, minCustomers, maxCustomers, averageCookies) {
+  this.name = name;
+  this.minCustomers = minCustomers;
+  this.maxCustomers = maxCustomers;
+  this.averageCookies = averageCookies;
+  this.hourlyTotals = [];
+  this.dailyTotals = 0;
+  this.generateCustomers = function () {
     for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+      this.hourlyTotals.push(Math.floor((Math.random() * (this.maxCustomers - this.minCustomers + 1) + this.minCustomers) * this.averageCookies));
+      this.dailyTotals += this.hourlyTotals[i];
     }
-  }
-};
-
-pike.generateCustomers(pike.minCustomers, pike.maxCustomers, pike.averageCookies);
-console.log(pike.hourlyTotals);
-
-
-var seatac = {
-  name: 'SeaTac Airport',
-  minCustomers: 3,
-  maxCustomers: 24,
-  averageCookies: 1.2,
-  hourlyTotals: [],
-  generateCustomers: function (min, max, avg) {
-    for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+  };
+  this.render = function () {
+    var tr = document.createElement('tr');
+    table.appendChild(tr);
+    var th = document.createElement('th');
+    th.textContent = this.name;
+    tr.appendChild(th);
+    for (var i = 0; i < hoursOpen.length; i++) {
+      var td = document.createElement('td');
+      td.textContent = this.hourlyTotals[i];
+      tr.appendChild(td);
     }
-  }
-};
+    th = document.createElement('th');
+    th.textContent = this.dailyTotals;
+    tr.appendChild(th);
+  };
+}
 
-seatac.generateCustomers(seatac.minCustomers, seatac.maxCustomers, seatac.averageCookies);
-console.log(seatac.hourlyTotals);
+// Initialize a new object for each store location
 
-var seattleCenter = {
-  minCustomers: 11,
-  maxCustomers: 38,
-  averageCookies: 3.7,
-  hourlyTotals: [],
-  generateCustomers: function (min, max, avg) {
-    for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
-    }
-  }
-};
+var pike = new Store('1st and Pike', 23, 65, 6.3);
+var seatac = new Store('SeaTac Airport', 3, 24, 1.2);
+var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
+var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
+var alki = new Store('Alki', 2, 16, 4.6);
 
-seattleCenter.generateCustomers(seattleCenter.minCustomers, seattleCenter.maxCustomers, seattleCenter.averageCookies);
-console.log(seattleCenter.hourlyTotals);
+// Create an array to hold all of the created store objects
+var allStores = [pike, seatac, seattleCenter, capitolHill, alki];
 
-var capitolHill = {
-  minCustomers: 20,
-  maxCustomers: 38,
-  averageCookies: 2.3,
-  hourlyTotals: [],
-  generateCustomers: function (min, max, avg) {
-    for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
-    }
-  }
-};
+var hoursOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
-capitolHill.generateCustomers(capitolHill.minCustomers, capitolHill.maxCustomers, capitolHill.averageCookies);
-console.log(capitolHill.hourlyTotals);
+// Initiate the generateCustomers method from all Store objects
+// Store all output into the hourlyTotals property for each object
 
-var alki = {
-  minCustomers: 2,
-  maxCustomers: 16,
-  averageCookies: 4.6,
-  hourlyTotals: [],
-  generateCustomers: function (min, max, avg) {
-    for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
-    }
-  }
-};
+for (var i = 0; i < allStores.length; i++) {
+  allStores[i].generateCustomers();
+  console.log(allStores[i].hourlyTotals);
+}
 
-alki.generateCustomers(alki.minCustomers, alki.maxCustomers, alki.averageCookies);
-console.log(alki.hourlyTotals);
-
-
-
-// Set the parent element for lists to attach to:
+// Set the parent element for sales table to attach to:
 
 var parentElement = document.getElementById('salesInfo');
 
-// Create first article section for Pike store:
+// Main heading for the sales page:
 
-for (var i = 0; i < 5; i++) {
-  var article = document.createElement('article');
-  article.setAttribute('id', 'article' + (i + 1));
-  parentElement.appendChild(article);
+var mainHeading = document.createElement('h1');
+mainHeading.textContent = 'Cookie Sales Report for All Stores';
+parentElement.appendChild(mainHeading);
 
-  var h2 = document.createElement('h2');
-  h2.setAttribute('id', 'heading' + (i + 1));
-  article.appendChild(h2);
-  h2.textContent = storeNames[i];
+// Create the table element to put sales information in:
 
-  var ul = document.createElement('ul');
-  ul.setAttribute('id', 'list' + (i + 1));
-  article.appendChild(ul);
+var table = document.createElement('table');
+table.setAttribute('id', 'sales_table');
+parentElement.appendChild(table);
+
+// Create the initial row of headings for hours and totals:
+// ROW 1:
+
+function createHeader() {
+  var tr = document.createElement('tr');
+  table.appendChild(tr);
+
+  for (i = 0; i < 17; i++) {
+    var th = document.createElement('th');
+    if (i == 0) {
+      th.textContent = 'Store Name';
+    } else if (i < 16) {
+      th.textContent = hoursOpen[i - 1];
+    } else {
+      th.textContent = 'Daily Location Total';
+    }
+    tr.appendChild(th);
+  }
 }
 
-function addListItems (store, listNumber) {
-  var list = document.getElementById('list' + listNumber);
-  var totalCookies = 0;
-  for (var i = 0; i < 15; i++) {
-    var li = document.createElement('li');
-    var hour = 6 + i;
-    var timeOfDay = 'am';
-    if (hour > 12) {
-      hour = hour - 12;
-      timeOfDay = 'pm';
-    }
-    if (hour == 12) {
-      timeOfDay = 'pm';
-    }
-    li.textContent = hour + timeOfDay + ': ' + store.hourlyTotals[i] + ' cookies';
-    totalCookies = totalCookies + store.hourlyTotals[i];
-    list.appendChild(li);
-  }
-  var totalLi = document.createElement('li');
-  totalLi.textContent = 'Total: ' + totalCookies + ' cookies';
-  list.appendChild(totalLi);
-  console.log(totalCookies);
-};
+createHeader();
 
-addListItems(pike, 1);
-addListItems(seatac, 2);
-addListItems(seattleCenter, 3);
-addListItems(capitolHill, 4);
-addListItems(alki, 5);
+// Render each Store's row within the table:
+// ROWS 2 - 6:
+
+pike.render();
+seatac.render();
+seattleCenter.render();
+capitolHill.render();
+alki.render();
+
+// STRETCH GOAL: Create a footer row for the table to display totals for each hour:

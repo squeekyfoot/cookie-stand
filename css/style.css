@@ -1,0 +1,23 @@
+h1 {
+  text-align: center;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+table {
+  margin: 25px auto;
+}
+
+th, td {
+  padding: 12px;
+}
+
+td {
+  text-align: center;
+}
+
+th {
+  font-size: 1.2em;
+}
