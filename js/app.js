@@ -101,3 +101,24 @@ capitolHill.render();
 alki.render();
 
 // STRETCH GOAL: Create a footer row for the table to display totals for each hour:
+
+
+// Add event listener to create store objects
+// Event: User clicks on the 'Submit' button
+// Action: Triggers a new store object based on the user input given
+
+var addAStore = document.getElementById('createAStore');
+addAStore.addEventListener('submit',
+  function(event) {
+    event.preventDefault();
+    var name = event.target.name.value;
+    var minCustomers = event.target.minCustomers.value;
+    var maxCustomers = event.target.maxCustomers.value;
+    var averageCookies = event.target.averageCookies.value;
+
+    var newStore = new Store(name, minCustomers, maxCustomers, averageCookies);
+    newStore.generateCustomers();
+    newStore.render();
+    addAStore.reset();
+  }
+);
