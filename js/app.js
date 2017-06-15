@@ -1,8 +1,5 @@
 'use strict';
 
-// Create an array to hold all store names created:
-var storeNames = [];
-
 // Create a constructor function to create and hold store objects
 
 function Store (name, minCustomers, maxCustomers, averageCookies) {
@@ -33,7 +30,6 @@ function Store (name, minCustomers, maxCustomers, averageCookies) {
     th.textContent = this.dailyTotals;
     tr.appendChild(th);
   };
-  storeNames.push(name.toLowerCase());
 }
 
 // Initialize a new object for each store location
@@ -46,7 +42,6 @@ var alki = new Store('Alki', 2, 16, 4.6);
 
 // Create an array to hold all of the created store objects
 var allStores = [pike, seatac, seattleCenter, capitolHill, alki];
-
 
 var hoursOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
@@ -73,7 +68,6 @@ parentElement.appendChild(mainHeading);
 var table = document.createElement('table');
 table.setAttribute('id', 'sales_table');
 parentElement.appendChild(table);
-
 
 // Create the initial row of headings for hours and totals:
 // ROW 1:
@@ -106,29 +100,4 @@ seattleCenter.render();
 capitolHill.render();
 alki.render();
 
-
-// Add event listener to create store objects
-// Event: User clicks on the 'Submit' button
-// Action: Triggers a new store object based on the user input given
-
-var addAStore = document.getElementById('createAStore');
-addAStore.addEventListener('submit',
-  function(event) {
-    event.preventDefault();
-    var name = event.target.name.value;
-    var minCustomers = event.target.minCustomers.value;
-    var maxCustomers = event.target.maxCustomers.value;
-    var averageCookies = event.target.averageCookies.value;
-
-    if (storeNames.indexOf(name.toLowerCase()) >= 0) {
-      alert('Sorry, this store name has already been added.');
-    } else if (minCustomers > maxCustomers) {
-      alert('Your \'Minimum Customers\' cannot be higher than your \'Maximum Customers\'.');
-    } else {
-      var newStore = new Store(name, minCustomers, maxCustomers, averageCookies);
-      newStore.generateCustomers();
-      newStore.render();
-      addAStore.reset();
-    }
-  }
-);
+// STRETCH GOAL: Create a footer row for the table to display totals for each hour:
