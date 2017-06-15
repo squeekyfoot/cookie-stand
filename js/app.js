@@ -1,8 +1,15 @@
 'use strict';
 
+///////////////////////////////////////////////////
 // Create an array to hold all store names created:
 var storeNames = [];
 
+///////////////////////////////////////////////////////////
+// Create an array to hold all of the created store objects
+
+var allStores = [];
+
+/////////////////////////////////////////////////////////////////
 // Create a constructor function to create and hold store objects
 
 function Store (name, minCustomers, maxCustomers, averageCookies) {
@@ -33,9 +40,21 @@ function Store (name, minCustomers, maxCustomers, averageCookies) {
     th.textContent = this.dailyTotals;
     tr.appendChild(th);
   };
+  this.updateHours = function () {
+    for (i = 0; i < hoursOpen.length; i++) {
+      var cell = document.getElementById('total' + i);
+      var dailySales = 0;
+      for (var ii = 0; ii < allStores.length; ii++) {
+        dailySales += allStores[ii].hourlyTotals[i];
+      };
+      cell.textContent = dailySales;
+    };
+  };
   storeNames.push(name.toLowerCase());
+  allStores.push(this);
 }
 
+//////////////////////////////////////////////////
 // Initialize a new object for each store location
 
 var pike = new Store('1st and Pike', 23, 65, 6.3);
@@ -44,8 +63,6 @@ var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
-// Create an array to hold all of the created store objects
-var allStores = [pike, seatac, seattleCenter, capitolHill, alki];
 
 
 var hoursOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
@@ -106,6 +123,37 @@ seattleCenter.render();
 capitolHill.render();
 alki.render();
 
+// Create a footer row for hourly totals from all locations
+
+var tfoot = document.createElement('tfoot');
+table.appendChild(tfoot);
+
+var footerRow = document.createElement('tr');
+tfoot.appendChild(footerRow);
+
+var th = document.createElement('th');
+th.textContent = 'Hourly Totals';
+footerRow.appendChild(th);
+
+///////////////////////////////////////////////////////////////////
+// Create the totals for each cell in the footer and append them //
+///////////////////////////////////////////////////////////////////
+
+for (i = 0; i < hoursOpen.length; i++) {
+  var cell = document.createElement('th');
+  cell.setAttribute('id', 'total' + i);
+  var dailySales = 0;
+  for (var ii = 0; ii < allStores.length; ii++) {
+    dailySales += allStores[ii].hourlyTotals[i];
+    // console.log(dailySales);
+  };
+  cell.textContent = dailySales;
+  footerRow.appendChild(cell);
+}
+
+
+
+
 
 // Add event listener to create store objects
 // Event: User clicks on the 'Submit' button
@@ -128,7 +176,8 @@ addAStore.addEventListener('submit',
       var newStore = new Store(name, minCustomers, maxCustomers, averageCookies);
       newStore.generateCustomers();
       newStore.render();
+      newStore.updateHours();
       addAStore.reset();
-    }
+    };
   }
 );
