@@ -1,5 +1,8 @@
 'use strict';
 
+// Create an array to hold all store names created:
+var storeNames = [];
+
 // Create a constructor function to create and hold store objects
 
 function Store (name, minCustomers, maxCustomers, averageCookies) {
@@ -30,6 +33,7 @@ function Store (name, minCustomers, maxCustomers, averageCookies) {
     th.textContent = this.dailyTotals;
     tr.appendChild(th);
   };
+  storeNames.push(name.toLowerCase());
 }
 
 // Initialize a new object for each store location
@@ -42,6 +46,7 @@ var alki = new Store('Alki', 2, 16, 4.6);
 
 // Create an array to hold all of the created store objects
 var allStores = [pike, seatac, seattleCenter, capitolHill, alki];
+
 
 var hoursOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
@@ -115,9 +120,15 @@ addAStore.addEventListener('submit',
     var maxCustomers = event.target.maxCustomers.value;
     var averageCookies = event.target.averageCookies.value;
 
-    var newStore = new Store(name, minCustomers, maxCustomers, averageCookies);
-    newStore.generateCustomers();
-    newStore.render();
-    addAStore.reset();
+    if (storeNames.indexOf(name.toLowerCase()) >= 0) {
+      alert('Sorry, this store name has already been added.');
+    } else if (minCustomers > maxCustomers) {
+      alert('Your \'Minimum Customers\' cannot be higher than your \'Maximum Customers\'.');
+    } else {
+      var newStore = new Store(name, minCustomers, maxCustomers, averageCookies);
+      newStore.generateCustomers();
+      newStore.render();
+      addAStore.reset();
+    }
   }
 );
