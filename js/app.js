@@ -1,8 +1,15 @@
 'use strict';
 
+///////////////////////////////////////////////////
 // Create an array to hold all store names created:
 var storeNames = [];
 
+///////////////////////////////////////////////////////////
+// Create an array to hold all of the created store objects
+
+var allStores = [];
+
+/////////////////////////////////////////////////////////////////
 // Create a constructor function to create and hold store objects
 
 function Store (name, minCustomers, maxCustomers, averageCookies) {
@@ -33,9 +40,21 @@ function Store (name, minCustomers, maxCustomers, averageCookies) {
     th.textContent = this.dailyTotals;
     tr.appendChild(th);
   };
+  this.updateHours = function () {
+    for (i = 0; i < hoursOpen.length; i++) {
+      var cell = document.getElementById('total' + i);
+      var dailySales = 0;
+      for (var ii = 0; ii < allStores.length; ii++) {
+        dailySales += allStores[ii].hourlyTotals[i];
+      };
+      cell.textContent = dailySales;
+    };
+  };
   storeNames.push(name.toLowerCase());
+  allStores.push(this);
 }
 
+//////////////////////////////////////////////////
 // Initialize a new object for each store location
 
 var pike = new Store('1st and Pike', 23, 65, 6.3);
@@ -44,12 +63,12 @@ var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
-// Create an array to hold all of the created store objects
-var allStores = [pike, seatac, seattleCenter, capitolHill, alki];
-
+//////////////////////////////////////////////////
+// Create an array to store available store hours
 
 var hoursOpen = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm', '8:00pm'];
 
+//////////////////////////////////////////////////////////////////
 // Initiate the generateCustomers method from all Store objects
 // Store all output into the hourlyTotals property for each object
 
@@ -58,25 +77,27 @@ for (var i = 0; i < allStores.length; i++) {
   console.log(allStores[i].hourlyTotals);
 }
 
+////////////////////////////////////////////////////////
 // Set the parent element for sales table to attach to:
 
 var parentElement = document.getElementById('salesInfo');
 
+/////////////////////////////////////
 // Main heading for the sales page:
 
 var mainHeading = document.createElement('h1');
 mainHeading.textContent = 'Cookie Sales Report for All Stores';
 parentElement.appendChild(mainHeading);
 
+////////////////////////////////////////////////////////
 // Create the table element to put sales information in:
 
 var table = document.createElement('table');
 table.setAttribute('id', 'sales_table');
 parentElement.appendChild(table);
 
-
+///////////////////////////////////////////////////////////
 // Create the initial row of headings for hours and totals:
-// ROW 1:
 
 function createHeader() {
   var tr = document.createElement('tr');
@@ -97,8 +118,8 @@ function createHeader() {
 
 createHeader();
 
+////////////////////////////////////////////////
 // Render each Store's row within the table:
-// ROWS 2 - 6:
 
 pike.render();
 seatac.render();
@@ -106,7 +127,36 @@ seattleCenter.render();
 capitolHill.render();
 alki.render();
 
+////////////////////////////////////////////////////////////
+// Create a footer row for hourly totals from all locations
 
+var tfoot = document.createElement('tfoot');
+table.appendChild(tfoot);
+
+var footerRow = document.createElement('tr');
+tfoot.appendChild(footerRow);
+
+var th = document.createElement('th');
+th.textContent = 'Hourly Totals';
+footerRow.appendChild(th);
+
+//////////////////////////////////////////////////////////////////
+// Create the totals for each cell in the footer and append them
+
+
+for (i = 0; i < hoursOpen.length; i++) {
+  var cell = document.createElement('th');
+  cell.setAttribute('id', 'total' + i);
+  var dailySales = 0;
+  for (var ii = 0; ii < allStores.length; ii++) {
+    dailySales += allStores[ii].hourlyTotals[i];
+    // console.log(dailySales);
+  };
+  cell.textContent = dailySales;
+  footerRow.appendChild(cell);
+}
+
+///////////////////////////////////////////////////////////////////
 // Add event listener to create store objects
 // Event: User clicks on the 'Submit' button
 // Action: Triggers a new store object based on the user input given
@@ -128,7 +178,8 @@ addAStore.addEventListener('submit',
       var newStore = new Store(name, minCustomers, maxCustomers, averageCookies);
       newStore.generateCustomers();
       newStore.render();
+      newStore.updateHours();
       addAStore.reset();
-    }
+    };
   }
 );
