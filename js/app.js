@@ -28,7 +28,7 @@ var pike = {
   hourlyTotals: [],
   generateCustomers: function (min, max, avg) {
     for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+      this.hourlyTotals.push(Math.floor((Math.random() * (max - min + 1) + min) * avg));
     }
   }
 };
@@ -45,7 +45,7 @@ var seatac = {
   hourlyTotals: [],
   generateCustomers: function (min, max, avg) {
     for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+      this.hourlyTotals.push(Math.floor((Math.random() * (max - min + 1) + min) * avg));
     }
   }
 };
@@ -60,7 +60,7 @@ var seattleCenter = {
   hourlyTotals: [],
   generateCustomers: function (min, max, avg) {
     for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+      this.hourlyTotals.push(Math.floor((Math.random() * (max - min + 1) + min) * avg));
     }
   }
 };
@@ -75,7 +75,7 @@ var capitolHill = {
   hourlyTotals: [],
   generateCustomers: function (min, max, avg) {
     for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+      this.hourlyTotals.push(Math.floor((Math.random() * (max - min + 1) + min) * avg));
     }
   }
 };
@@ -90,7 +90,7 @@ var alki = {
   hourlyTotals: [],
   generateCustomers: function (min, max, avg) {
     for (var i = 0; i < 15; i++) {
-      this.hourlyTotals.push(Math.floor(Math.random() * (max - min + 1)) + min) * avg;
+      this.hourlyTotals.push(Math.floor((Math.random() * (max - min + 1) + min) * avg));
     }
   }
 };
