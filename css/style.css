@@ -1,85 +1,16 @@
-/**********************  12-COLUMN GRID CREATION  *****************************/
-/*
-.column,
-.row {
-  box-sizing: border-box;
-}
-
-.row::before,
-.row::after {
-  content: "";
-  display: table;
-}
-
-.row::after {
-  clear: both;
-}
-
-.column {
-  position: relative;
-  float: left;
-}
-
-.col-1 {
-  width: 8.33%;
-}
-
-.col-2 {
-  width: 16.33%;
-}
-
-.col-3 {
-  width: 24.98%;
-}
-
-.col-4 {
-  width: 33.32%;
-}
-
-.col-5 {
-  width: 41.65%;
-}
-
-.col-6 {
-  width: 49.98%;
-}
-
-.col-7 {
-  width: 58.3%;
-}
-
-.col-8 {
-  width: 66.66%;
-}
-
-.col-9 {
-  width: 74.97%;
-}
-
-.col-10 {
-  width: 83.3%;
-}
-
-.col-11 {
-  width: 91.66%;
-}
-
-.col-12 {
-  width: 100%;
-}
-*/
-
 
 /*****************************  PUBLIC PAGE  **********************************/
 h1 {
   text-align: center;
   margin-top: 50px;
   font-size: 4em;
+  font-family: 'Lobster', cursive;
 }
 
 h2 {
   text-align: center;
   font-size: 2em;
+  font-family: 'Lobster', cursive;
 }
 
 img {
@@ -93,13 +24,14 @@ img {
 body {
   width: 70%;
   margin: auto;
+  font-family: sans-serif;
 }
 
 /*Navigation Styles*/
 
 #navbar {
   clear: both;
-  background-color: #42f4aa;
+  background-color: #275b2e;
 }
 
 nav a {
@@ -107,25 +39,64 @@ nav a {
   float: left;
   width: 25%;
   text-align: center;
+  background-color: #275b2e;
+  color: white;
 }
 
 /*Main Section Styles*/
 
+#wrapper {
+  display: block;
+  height: 800px;
+}
+
 main {
+  height: 100%;
   width: 80%;
-  background-color: #dddddd;
+  background-color: #e8ede9;
   float: left;
+  box-sizing: border-box;
+}
+
+main > p {
+  padding: 2%;
+}
+
+#imagerow > img {
+  display: block;
+  float: left;
+  width: 12%;
+  margin: auto;
 }
 
 aside {
+  /*height: 100%;*/
   width: 20%;
-  background-color: #dddddd;
+  background-color: #95c19b;
   float: left;
+  box-sizing: border-box;
 }
 
+aside > img {
+  width: 90%;
+}
+
+aside > p {
+  padding: 2%;
+}
+
+/*Footer Styles*/
+
 footer {
-  background-color: #42f4aa;
+  background-color: #275b2e;
   clear: both;
+}
+
+footer > p {
+  display: inline-block;
+  width: 33%;
+  text-align: center;
+  color: white;
 }
 
 
